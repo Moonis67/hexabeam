@@ -1,0 +1,7 @@
+:root {
+  --navy-950:#05142f; --navy-900:#081d40; --navy-800:#102b55; --navy-700:#1b4272;
+  --gold-600:#a66e18; --gold-500:#c69232; --gold-400:#e2ba68;
+  --ink:#10203d; --muted:#5f6c7e; --surface:#f5f3ed; --line:#dfe3e8; --white:#fff;
+  --shadow:0 18px 55px rgba(5,20,47,.12); --radius:6px; --container:1320px; --reading:760px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}

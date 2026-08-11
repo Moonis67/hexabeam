@@ -1,0 +1,9 @@
+<svg width="900" height="1200" viewBox="0 0 900 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="currentColor" stroke-width="13" stroke-linecap="square" stroke-linejoin="miter" opacity=".9">
+    <path d="M174 112V486L448 644V270L174 112Z"/>
+    <path d="M448 270L712 116V492L448 644"/>
+    <path d="M174 486L448 328L712 492L448 650L174 486Z"/>
+    <path d="M174 710V1084L448 926V552L174 710Z"/>
+    <path d="M448 552L712 710V1086L448 926"/>
+  </g>
+</svg>
