@@ -28,6 +28,7 @@ qa/
 
 # Generated deployment archives
 dist/
+*.zip
 
 # Local design/source references (production copies live in public/)
 references/
