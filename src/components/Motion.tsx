@@ -7,7 +7,7 @@ export function Motion(){useEffect(()=>{if(window.matchMedia("(prefers-reduced-m
   .from(".hero .eyebrow",{y:18,opacity:0,duration:.65,ease:"power3.out"})
   .from(".hero h1",{y:58,opacity:0,clipPath:"inset(0 0 100% 0)",duration:1.05,ease:"power4.out"},"-=.35")
   .from(".hero .lead, .hero-actions, .trust-line, .hero-index",{y:22,opacity:0,duration:.72,stagger:.08,ease:"power3.out"},"-=.5");
- const heroDelay=gsap.delayedCall(2.8,()=>heroTimeline.play());
+ const heroDelay=gsap.delayedCall(.3,()=>heroTimeline.play());
  ScrollTrigger.create({trigger:".hero",start:"top -2px",once:true,onEnter:()=>heroTimeline.play()});
  gsap.to(".hero-video",{scale:1.055,yPercent:3,ease:"none",scrollTrigger:{trigger:".hero",start:"top top",end:"bottom top",scrub:1.2}});
  gsap.utils.toArray<HTMLElement>(".category-card").forEach((el,i)=>gsap.from(el,{x:i%2?22:-22,duration:.8,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 90%",once:true}}));

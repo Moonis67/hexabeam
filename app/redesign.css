@@ -718,7 +718,7 @@ h1,h2,h3{letter-spacing:-.042em}
 .hero-static-line{display:block;margin-bottom:.18em;font-family:"Onest","Manrope",Arial,sans-serif;font-size:.48em;font-weight:600;line-height:1;letter-spacing:-.025em}
 .hero-service-loop{display:block;width:100%;min-height:1.02em;overflow:hidden;color:var(--champagne-light)!important;white-space:nowrap;text-align:left}
 .hero h1 .hero-service-loop:after{display:none}
-.hero-service-loop span{display:block;animation:hero-service-word .55s cubic-bezier(.22,.8,.25,1) both}
+.hero-service-loop span{display:block;animation:hero-service-word .35s cubic-bezier(.22,.8,.25,1) both}
 @keyframes hero-service-word{from{opacity:0;transform:translateY(38%);filter:blur(5px)}to{opacity:1;transform:none;filter:blur(0)}}
 .hero .lead{max-width:575px;color:#f4f6f7;font-size:1.05rem;line-height:1.6;text-shadow:0 2px 14px rgba(0,0,0,.9)}
 .hero-actions{justify-content:flex-start;margin:0}.hero-actions .btn{min-height:46px;padding-inline:19px;font-size:.7rem}.hero-actions .btn-primary{color:#061326}.hero-actions .btn-outline{border-color:rgba(255,255,255,.68);background:rgba(2,10,20,.52);color:#fff}

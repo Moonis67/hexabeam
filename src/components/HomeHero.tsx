@@ -20,7 +20,7 @@ export function HomeHero(){
 
  useEffect(()=>{
   if(video.current&&video.current.readyState>=3)setReady(true);
-  const fallback=window.setTimeout(()=>setReady(true),2500);
+  const fallback=window.setTimeout(()=>setReady(true),1000);
   return()=>{
    window.clearTimeout(fallback);
    if(loopPreload.current){
@@ -32,7 +32,7 @@ export function HomeHero(){
 
  useEffect(()=>{
   if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const rotation=window.setInterval(()=>setServiceWord(current=>(current+1)%SERVICE_WORDS.length),2400);
+  const rotation=window.setInterval(()=>setServiceWord(current=>(current+1)%SERVICE_WORDS.length),1400);
   return()=>window.clearInterval(rotation);
  },[]);
 
@@ -63,7 +63,6 @@ export function HomeHero(){
    loop={videoSrc===LOOP_VIDEO}
    playsInline
    preload="auto"
-   poster="/assets/web/dubai-architecture.webp"
    aria-hidden="true"
    onCanPlay={()=>setReady(true)}
    onPlaying={warmLoopVideo}
