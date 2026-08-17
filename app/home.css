@@ -1,0 +1,539 @@
+/* ============================================================================
+   Homepage.
+
+   Scoped under `.hb-home` with `hb-` class names used nowhere else, so nothing
+   here competes with redesign.css's override stack. Sizes, colours, spacing and
+   easing all come from design-system.css — no bespoke values unless a specific
+   optical correction needs one.
+
+   Desktop and mobile are designed separately rather than scaled: desktop leans
+   on density and hover affordance, mobile on larger targets, stacked data and
+   no hover dependency.
+   ========================================================================== */
+
+.hb-home{
+ --hb-navy:#0a2a4d;
+ --hb-navy-deep:#071c35;
+ position:relative;
+}
+
+.hb-home .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ---------- Section furniture ------------------------------------------- */
+
+.hb-home .hb-section{padding:var(--s-section) 0}
+.hb-home .hb-tinted{background:var(--c-surface-sunken)}
+.hb-home .hb-structure-section{position:relative;overflow:hidden;isolation:isolate}
+.hb-home .hb-structure-section:before{
+ content:"";position:absolute;z-index:-1;inset:-20% -12% auto 48%;height:720px;pointer-events:none;
+ background:url('/assets/brand/beam-field.svg') top right/contain no-repeat;opacity:.15;
+}
+
+.hb-home .hb-eyebrow{
+ display:block;margin-bottom:var(--s-3);
+ color:var(--c-accent);font-size:var(--fs-xs);font-weight:700;
+ letter-spacing:.14em;text-transform:uppercase;
+}
+
+/* Asymmetric head: statement left, orientation right. The rule beneath sets a
+   consistent horizon that every section shares. */
+.hb-home .hb-head{
+ display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+ gap:var(--s-10) clamp(var(--s-10),6vw,var(--s-24));
+ align-items:end;
+ margin-bottom:var(--s-12);
+ padding-bottom:var(--s-8);
+ border-bottom:1px solid var(--c-line);
+}
+.hb-home .hb-head h2{
+ margin:0;max-width:17ch;
+ color:var(--c-ink-900);font-size:var(--fs-3xl);font-weight:700;
+ line-height:1.08;letter-spacing:-.028em;
+}
+.hb-home .hb-head p{max-width:50ch;color:var(--c-ink-500);font-size:var(--fs-md);line-height:1.65}
+.hb-home .hb-head>div:last-child{display:flex;flex-direction:column;align-items:flex-start;gap:var(--s-5)}
+
+/* Inline link with a real hit area — the text alone was ~18px tall. Negative
+   margin keeps the padding from disturbing the layout it sits in. */
+.hb-home .hb-link{
+ display:inline-flex;align-items:center;gap:var(--s-2);
+ min-height:44px;margin:calc(var(--s-3) * -1) calc(var(--s-3) * -1);
+ padding:var(--s-3);border-radius:var(--r-sm);
+ color:#0b5f96;font-size:var(--fs-sm);font-weight:600;
+ transition:color var(--t-fast) var(--ease-out),background var(--t-fast) var(--ease-out);
+}
+.hb-home .hb-link svg{flex:none;transition:transform var(--t-base) var(--ease-out)}
+.hb-home .hb-link:hover{color:#08496f;background:var(--c-surface-sunken)}
+.hb-home .hb-link:hover svg{transform:translateX(3px)}
+
+.hb-home .hb-note{
+ max-width:84ch;margin-top:var(--s-6);padding-left:var(--s-4);
+ border-left:2px solid var(--c-accent);
+ color:var(--c-ink-500);font-size:var(--fs-sm);line-height:1.6;
+}
+
+/* ---------- Hero --------------------------------------------------------- */
+
+/* redesign.css sets `.hero:before,.hero:after{display:none}`, so both need
+   switching back on. :before carries colour, :after the legibility scrim. */
+.hb-home .hero:before{
+ content:"";display:block;position:absolute;inset:0;z-index:-2;pointer-events:none;
+ background:
+  radial-gradient(62% 55% at 100% 0%,rgba(226,175,72,.28),transparent 70%),
+  radial-gradient(56% 52% at 0% 100%,rgba(14,80,133,.42),transparent 68%);
+}
+.hb-home .hero:after{
+ content:"";display:block;position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background:
+  linear-gradient(90deg,rgba(4,18,35,.8) 0%,rgba(4,18,35,.44) 46%,transparent 76%),
+  linear-gradient(0deg,rgba(4,18,35,.74) 0%,transparent 42%);
+}
+
+/* redesign.css:428 hid the hero copy until the video fired `canplay` or a 2.5s
+   timeout elapsed. That is the LCP element, deliberately invisible. The headline
+   now paints immediately and the video fades in behind it once decoded. */
+.hb-home .hero-loading .hero-copy,
+.hb-home .hero-ready .hero-copy{opacity:1;visibility:visible;transform:none}
+.hb-home .hero-video{opacity:0;transition:opacity 900ms var(--ease-out)}
+.hb-home .hero-ready .hero-video{opacity:1}
+
+.hb-home .hero-copy{max-width:940px;padding:clamp(150px,17vh,210px) 0 clamp(64px,7vh,92px)}
+
+.hb-home .hero-beam-field{
+ position:absolute;inset:-12% -8% -12% 38%;z-index:-1;pointer-events:none;
+ background:url('/assets/brand/beam-field.svg') center/cover no-repeat;
+ opacity:.7;mix-blend-mode:screen;
+ animation:hb-field-drift 12s ease-in-out infinite alternate;
+}
+@keyframes hb-field-drift{to{transform:translate3d(-2.5%,1.5%,0) scale(1.025)}}
+.hb-home .hero-kicker{display:flex;align-items:center;gap:var(--s-3);margin-bottom:var(--s-6)}
+.hb-home .hero-kicker>span{width:42px;height:1px;background:var(--c-accent-bright);box-shadow:16px 0 24px rgba(240,202,114,.65)}
+.hb-home .hero-kicker p{color:rgba(255,255,255,.76);font-size:var(--fs-xs);font-weight:600;letter-spacing:.11em;text-transform:uppercase}
+.hb-home .hero-kicker b{margin:0 .35em;color:var(--c-accent-bright)}
+.hb-home .hero-proof{display:flex;align-items:stretch;gap:0;margin-top:clamp(42px,7vh,72px);width:max-content;border-top:1px solid rgba(255,255,255,.2)}
+.hb-home .hero-proof>div{display:flex;align-items:center;gap:var(--s-3);min-width:160px;padding:var(--s-5) var(--s-6) var(--s-2) 0}
+.hb-home .hero-proof>div+div{padding-left:var(--s-6);border-left:1px solid rgba(255,255,255,.16)}
+.hb-home .hero-proof strong{color:#fff;font-size:var(--fs-xl);font-weight:600;line-height:1}
+.hb-home .hero-proof span{color:rgba(255,255,255,.62);font-size:var(--fs-xs);line-height:1.35;text-transform:uppercase;letter-spacing:.07em}
+.hb-home .hero-scroll{position:absolute;right:clamp(24px,4vw,72px);bottom:34px;z-index:3;display:flex;align-items:center;gap:var(--s-3);color:#fff;font-size:var(--fs-xs);font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.hb-home .hero-scroll:before{content:"";position:absolute;right:-14px;width:44px;height:44px;border:1px solid rgba(255,255,255,.28);border-radius:50%;transition:transform var(--t-base) var(--ease-out),border-color var(--t-base) var(--ease-out)}
+.hb-home .hero-scroll:hover:before{transform:scale(1.12);border-color:var(--c-accent-bright)}
+
+/* A brand signal carries the eye from the cinematic hero into the directory. */
+.hb-home .hb-signal{overflow:hidden;background:var(--c-accent-bright);color:var(--c-ink-900);border-bottom:1px solid rgba(8,23,43,.12)}
+.hb-home .hb-signal>div{display:flex;align-items:center;width:max-content;padding:12px 0;animation:hb-signal 28s linear infinite}
+.hb-home .hb-signal span{padding:0 3rem;font-size:var(--fs-xs);font-weight:700;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap}
+.hb-home .hb-signal i{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.45}
+.hb-home .hb-signal>div:after{content:"One brief  ·  One visible route  ·  One accountable team  ·  Built around your deadline";padding-left:3rem;font-size:var(--fs-xs);font-weight:700;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap}
+@keyframes hb-signal{to{transform:translateX(-50%)}}
+
+.hb-progress{position:fixed;z-index:160;left:0;right:0;top:0;height:2px;pointer-events:none;background:rgba(8,23,43,.08)}
+.hb-progress i{display:block;width:100%;height:100%;background:linear-gradient(90deg,#b67a13,var(--c-accent-bright));transform:scaleX(var(--hb-page-progress,0));transform-origin:left;box-shadow:0 0 16px rgba(226,175,72,.55)}
+
+/* Staged entrance. `both` fill means the elements start hidden only while the
+   animation is actually scheduled — with animations disabled they render
+   visible, so this can never strand the headline. */
+@media(prefers-reduced-motion:no-preference){
+ .hb-home .hero h1{animation:hb-enter 700ms var(--ease-out) both}
+ .hb-home .hero-actions{animation:hb-enter 700ms 130ms var(--ease-out) both}
+}
+@keyframes hb-enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hb-home .hero h1{
+ max-width:20ch;margin:0;
+ font-size:var(--fs-4xl);font-weight:700;line-height:1.12;letter-spacing:-.032em;
+}
+.hb-home .hero-actions{display:flex;gap:var(--s-3);margin:var(--s-10) 0 0;flex-wrap:wrap}
+
+.hb-home .hb-rotator-lead{color:#fff}
+
+/* Each ending owns one slice of the loop; the delay on each span is index×step. */
+.hb-home .hb-rotator{
+ --hb-rotator-duration:16.8s;
+ --hb-rotator-step:calc(var(--hb-rotator-duration) / var(--hb-rotator-count));
+ display:inline-block;position:relative;vertical-align:bottom;
+}
+.hb-home .hb-rotator-sizer{visibility:hidden;white-space:nowrap}
+.hb-home .hb-rotator>span:not(.hb-rotator-sizer){
+ position:absolute;left:0;top:0;white-space:nowrap;
+ color:var(--c-accent-bright);opacity:0;
+ animation:hb-rotate var(--hb-rotator-duration) infinite;
+}
+@keyframes hb-rotate{
+ 0%{opacity:0;transform:translateY(.34em)}
+ 2.2%,11.6%{opacity:1;transform:translateY(0)}
+ 14.28%,100%{opacity:0;transform:translateY(-.34em)}
+}
+/* globals.css kills all animation under reduced motion, which would leave every
+   ending at opacity 0. The sizer is span 1, so span 2 is the first real word. */
+@media(prefers-reduced-motion:reduce){
+ .hb-home .hb-rotator>span:not(.hb-rotator-sizer){opacity:0;transform:none}
+ .hb-home .hb-rotator>span:nth-of-type(2){opacity:1}
+}
+
+/* ---------- Service directory -------------------------------------------- */
+
+/* Explicit columns, not auto-fill. There are seven categories, and auto-fill
+   produced 4+3 with a visibly empty cell. At four and at two columns the last
+   card spans the remainder, so every row resolves flush. */
+.hb-home .hb-service-grid{
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s-5);
+}
+.hb-home .hb-service-card:last-child{grid-column:span 2}
+.hb-home .hb-service-card:last-child ul{grid-template-columns:1fr 1fr;column-gap:var(--s-6)}
+
+@media(max-width:1240px){
+ .hb-home .hb-service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+.hb-home .hb-service-card{
+ position:relative;overflow:hidden;
+ display:flex;flex-direction:column;
+ padding:var(--s-8);
+ border:1px solid var(--c-line);border-radius:var(--r-lg);background:var(--c-surface);
+ transition:border-color var(--t-base) var(--ease-out),
+            box-shadow var(--t-base) var(--ease-out),
+            transform var(--t-base) var(--ease-out);
+}
+.hb-home .hb-service-card:after,.hb-home .hb-engagement:after,.hb-home .hb-ongoing article:after{
+ content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;
+ background:radial-gradient(280px circle at var(--hb-pointer-x,50%) var(--hb-pointer-y,50%),rgba(240,202,114,.16),transparent 62%);
+ transition:opacity var(--t-base) var(--ease-out);
+}
+.hb-home .hb-service-card:hover:after,.hb-home .hb-engagement:hover:after,.hb-home .hb-ongoing article:hover:after{opacity:1}
+.hb-home .hb-service-card>*{position:relative;z-index:1}
+/* A hairline that draws itself across the top edge on hover. */
+.hb-home .hb-service-card:before{
+ content:"";position:absolute;inset:0 auto auto 0;height:2px;width:100%;
+ background:linear-gradient(90deg,var(--c-accent),var(--c-accent-bright));
+ transform:scaleX(0);transform-origin:left;
+ transition:transform 450ms var(--ease-out);
+}
+.hb-home .hb-service-card:hover{
+ border-color:var(--c-line-strong);box-shadow:var(--e-3);transform:translateY(-3px);
+}
+.hb-home .hb-service-card:hover:before{transform:scaleX(1)}
+
+.hb-home .hb-service-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s-6)}
+/* ink-300 measured 2.45:1 on white — a contrast failure on small text.
+   ink-500 is 5.77:1 and still reads as secondary. */
+.hb-home .hb-num{
+ color:var(--c-ink-500);font-size:var(--fs-xs);font-weight:700;letter-spacing:.12em;
+ font-variant-numeric:tabular-nums;
+ transition:color var(--t-base) var(--ease-out);
+}
+.hb-home .hb-service-card:hover .hb-num{color:var(--c-accent)}
+.hb-home .hb-service-top svg{
+ box-sizing:content-box;width:20px;height:20px;padding:11px;border-radius:var(--r-md);
+ background:var(--c-surface-sunken);color:var(--hb-navy);
+ transition:background var(--t-base) var(--ease-out),color var(--t-base) var(--ease-out);
+}
+.hb-home .hb-service-card:hover .hb-service-top svg{background:var(--hb-navy);color:var(--c-accent-bright)}
+
+.hb-home .hb-service-card h3{margin:0 0 var(--s-2);color:var(--c-ink-900);font-size:var(--fs-xl);font-weight:700;line-height:1.25;letter-spacing:-.02em}
+.hb-home .hb-service-card>p{margin:0 0 var(--s-5);color:var(--c-ink-500);font-size:var(--fs-base);line-height:1.6}
+.hb-home .hb-service-card ul{display:grid;gap:var(--s-1);margin:0 0 var(--s-5);padding:0 0 var(--s-4);border-bottom:1px solid var(--c-line);list-style:none}
+.hb-home .hb-service-card li{display:flex;align-items:flex-start;gap:var(--s-2);font-size:var(--fs-sm)}
+.hb-home .hb-service-card li svg{flex:none;margin-top:11px;color:#15679c}
+.hb-home .hb-service-card li a{
+ display:block;padding:var(--s-2) 0;
+ color:var(--c-ink-600);line-height:1.4;
+ transition:color var(--t-fast) var(--ease-out);
+}
+.hb-home .hb-service-card li a:hover{color:#0b5f96}
+.hb-home .hb-service-card>.hb-link{margin-top:auto}
+
+/* ---------- Structure comparison ------------------------------------------ */
+
+.hb-home .hb-table-scroll{overflow:hidden;border:1px solid var(--c-line);border-radius:var(--r-lg);background:var(--c-surface)}
+.hb-home .hb-table{width:100%;border-collapse:collapse;text-align:left}
+.hb-home .hb-table thead th{
+ padding:var(--s-5) var(--s-6);background:var(--hb-navy);
+ color:#fff;font-size:var(--fs-md);font-weight:700;letter-spacing:-.01em;
+}
+.hb-home .hb-table thead th:first-child{width:160px;background:var(--hb-navy-deep)}
+.hb-home .hb-table tbody th{
+ width:160px;padding:var(--s-5) var(--s-6);vertical-align:top;
+ background:var(--c-surface-sunken);border-top:1px solid var(--c-line);
+ color:var(--c-ink-800);font-size:var(--fs-sm);font-weight:700;
+}
+.hb-home .hb-table td{
+ padding:var(--s-5) var(--s-6);vertical-align:top;
+ border-top:1px solid var(--c-line);border-left:1px solid var(--c-line);
+ color:var(--c-ink-500);font-size:var(--fs-base);line-height:1.6;
+}
+/* The mobile equivalent of the table. Hidden on desktop. */
+.hb-home .hb-structure-cards{display:none}
+
+/* ---------- Engagements ---------------------------------------------------- */
+
+.hb-home .hb-engagements{display:grid;grid-template-columns:repeat(auto-fit,minmax(275px,1fr));gap:var(--s-5)}
+.hb-home .hb-engagement{
+ display:flex;flex-direction:column;position:relative;overflow:hidden;padding:var(--s-8);
+ border:1px solid var(--c-line);border-top:2px solid var(--c-accent);
+ border-radius:var(--r-lg);background:var(--c-surface);
+ transition:box-shadow var(--t-base) var(--ease-out);
+}
+.hb-home .hb-engagement>*,.hb-home .hb-ongoing article>*{position:relative;z-index:1}
+.hb-home .hb-engagement:hover{box-shadow:var(--e-2)}
+.hb-home .hb-engagement h3{margin:0 0 var(--s-3);color:var(--c-ink-900);font-size:var(--fs-lg);font-weight:700;line-height:1.25;letter-spacing:-.02em}
+.hb-home .hb-engagement-summary{margin:0 0 var(--s-5);color:var(--c-ink-500);font-size:var(--fs-base);line-height:1.6}
+.hb-home .hb-engagement ul{display:grid;gap:var(--s-3);margin:0 0 var(--s-5);padding:var(--s-5) 0 0;border-top:1px solid var(--c-line);list-style:none}
+.hb-home .hb-engagement li{display:flex;align-items:flex-start;gap:var(--s-2);color:var(--c-ink-600);font-size:var(--fs-sm);line-height:1.45}
+.hb-home .hb-engagement li svg{flex:none;margin-top:3px;color:#15679c}
+.hb-home .hb-engagement-excludes{
+ margin:0 0 var(--s-5);padding:var(--s-3) var(--s-4);
+ border-radius:var(--r-sm);background:var(--c-accent-wash);
+ color:#6b5623;font-size:var(--fs-xs);line-height:1.55;
+}
+.hb-home .hb-engagement>.hb-link{margin-top:auto}
+
+/* ---------- Process -------------------------------------------------------- */
+
+.hb-home .hb-dark{position:relative;overflow:hidden;isolation:isolate;background:var(--hb-navy-deep);color:#fff}
+.hb-home .hb-dark:before{
+ content:"";position:absolute;z-index:-1;right:-5%;bottom:-25%;width:min(64vw,900px);height:110%;pointer-events:none;
+ background:url('/assets/brand/route-line.svg') right bottom/contain no-repeat;opacity:.22;
+ animation:hb-route-breathe 8s ease-in-out infinite alternate;
+}
+@keyframes hb-route-breathe{to{opacity:.34;transform:translate3d(-1.5%,-1%,0)}}
+.hb-home .hb-dark .hb-head{border-bottom-color:rgba(255,255,255,.14)}
+.hb-home .hb-dark .hb-head h2{color:#fff}
+.hb-home .hb-dark .hb-head p{color:#b0c1d1}
+.hb-home .hb-dark .hb-eyebrow{color:var(--c-accent-bright)}
+
+.hb-home .hb-steps{
+ display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--s-3);
+ margin:0;padding:0;list-style:none;
+}
+.hb-home .hb-steps li{
+ display:flex;flex-direction:column;position:relative;
+ padding:var(--s-6) var(--s-5) var(--s-8);border-radius:var(--r-md);
+ background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);
+ transition:background var(--t-base) var(--ease-out),border-color var(--t-base) var(--ease-out);
+}
+.hb-home .hb-steps li:hover{background:rgba(255,255,255,.08);border-color:rgba(240,202,114,.32)}
+.hb-home .hb-steps b{color:var(--c-accent-bright);font-size:var(--fs-xs);font-weight:700;letter-spacing:.12em;font-variant-numeric:tabular-nums}
+.hb-home .hb-steps h3{margin:var(--s-8) 0 var(--s-2);color:#fff;font-size:var(--fs-md);font-weight:700;line-height:1.3;letter-spacing:-.01em}
+.hb-home .hb-steps p{margin:0;color:#a3b6c8;font-size:var(--fs-sm);line-height:1.6}
+
+.hb-home .hb-dark-cta{
+ display:flex;align-items:center;justify-content:space-between;gap:var(--s-8);
+ margin-top:var(--s-4);padding:var(--s-6);border-radius:var(--r-md);
+ background:rgba(240,202,114,.08);border:1px solid rgba(240,202,114,.24);
+}
+.hb-home .hb-dark-cta p{margin:0;max-width:60ch;color:#d5e2ed;font-size:var(--fs-base);line-height:1.6}
+.hb-home .hb-dark-cta .btn{flex:none}
+
+/* ---------- Audiences ------------------------------------------------------- */
+
+.hb-home .hb-audiences{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:var(--s-5)}
+.hb-home .hb-audiences article{
+ padding:var(--s-6);border-radius:var(--r-lg);
+ background:var(--c-surface);border:1px solid var(--c-line);
+ transition:transform var(--t-base) var(--ease-out),box-shadow var(--t-base) var(--ease-out);
+}
+.hb-home .hb-audiences article:hover{transform:translateY(-2px);box-shadow:var(--e-2)}
+.hb-home .hb-audiences h3{margin:0 0 var(--s-2);color:var(--c-ink-900);font-size:var(--fs-md);font-weight:700;line-height:1.3;letter-spacing:-.015em}
+.hb-home .hb-audiences p{margin:0;color:var(--c-ink-500);font-size:var(--fs-base);line-height:1.6}
+
+/* ---------- Ongoing --------------------------------------------------------- */
+
+.hb-home .hb-ongoing{display:grid;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:var(--s-5)}
+.hb-home .hb-ongoing article{
+ display:flex;flex-direction:column;position:relative;overflow:hidden;padding:var(--s-8);
+ border:1px solid var(--c-line);border-radius:var(--r-lg);background:var(--c-surface);
+ transition:border-color var(--t-base) var(--ease-out),box-shadow var(--t-base) var(--ease-out);
+}
+.hb-home .hb-ongoing article:hover{border-color:var(--c-line-strong);box-shadow:var(--e-2)}
+.hb-home .hb-ongoing h3{margin:0 0 var(--s-2);color:var(--c-ink-900);font-size:var(--fs-lg);font-weight:700;line-height:1.25;letter-spacing:-.02em}
+.hb-home .hb-ongoing>article>p{margin:0 0 var(--s-5);color:var(--c-ink-500);font-size:var(--fs-base);line-height:1.6}
+.hb-home .hb-ongoing ul{display:grid;gap:var(--s-3);margin:0 0 var(--s-5);padding:var(--s-5) 0 0;border-top:1px solid var(--c-line);list-style:none}
+.hb-home .hb-ongoing li{display:flex;align-items:flex-start;gap:var(--s-2);color:var(--c-ink-600);font-size:var(--fs-sm);line-height:1.45}
+.hb-home .hb-ongoing li svg{flex:none;margin-top:3px;color:#15679c}
+.hb-home .hb-ongoing .hb-link{margin-top:auto}
+
+/* ---------- FAQ -------------------------------------------------------------- */
+
+.hb-home .hb-faq-grid{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:clamp(var(--s-10),6vw,var(--s-24));align-items:start}
+.hb-home .hb-faq-intro{position:sticky;top:120px}
+.hb-home .hb-faq-intro h2{margin:0 0 var(--s-4);color:var(--c-ink-900);font-size:var(--fs-3xl);font-weight:700;line-height:1.08;letter-spacing:-.028em}
+.hb-home .hb-faq-intro p{margin:0 0 var(--s-6);max-width:42ch;color:var(--c-ink-500);font-size:var(--fs-md);line-height:1.65}
+
+.hb-home .hb-faq{border-top:1px solid var(--c-line)}
+.hb-home .hb-faq details{border-bottom:1px solid var(--c-line)}
+.hb-home .hb-faq summary{
+ display:flex;justify-content:space-between;gap:var(--s-6);align-items:flex-start;
+ min-height:44px;padding:var(--s-5) 0;cursor:pointer;list-style:none;
+ color:var(--c-ink-900);font-size:var(--fs-md);font-weight:600;line-height:1.5;letter-spacing:-.01em;
+ transition:color var(--t-fast) var(--ease-out);
+}
+.hb-home .hb-faq summary::-webkit-details-marker{display:none}
+.hb-home .hb-faq summary:hover{color:var(--c-accent)}
+/* Rotating cross rather than a swapped glyph — the transform can animate. */
+.hb-home .hb-faq summary:after{
+ content:"";flex:none;width:12px;height:12px;margin-top:6px;
+ background:
+  linear-gradient(var(--c-accent),var(--c-accent)) center/12px 1.5px no-repeat,
+  linear-gradient(var(--c-accent),var(--c-accent)) center/1.5px 12px no-repeat;
+ transition:transform var(--t-base) var(--ease-out);
+}
+.hb-home .hb-faq details[open] summary:after{transform:rotate(135deg)}
+.hb-home .hb-faq details p{max-width:68ch;margin:0;padding:0 0 var(--s-6);color:var(--c-ink-500);font-size:var(--fs-base);line-height:1.75}
+
+/* ---------- Contact ------------------------------------------------------------ */
+
+.hb-home .hb-contact{padding:var(--s-section) 0;background:var(--hb-navy);color:#fff}
+.hb-home .hb-contact .container{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(var(--s-10),6vw,var(--s-20));align-items:start}
+.hb-home .hb-contact .hb-eyebrow{color:var(--c-accent-bright)}
+.hb-home .hb-contact-copy h2{margin:0 0 var(--s-4);max-width:18ch;color:#fff;font-size:var(--fs-3xl);font-weight:700;line-height:1.08;letter-spacing:-.028em}
+.hb-home .hb-contact-copy p{margin:0 0 var(--s-8);max-width:52ch;color:#b8c8d7;font-size:var(--fs-md);line-height:1.65}
+
+.hb-home .hb-channels{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;
+ margin:0;padding:0;list-style:none;
+ background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14);
+ border-radius:var(--r-lg);overflow:hidden;
+}
+.hb-home .hb-channels li{display:flex;align-items:flex-start;gap:var(--s-3);padding:var(--s-6);background:var(--hb-navy)}
+.hb-home .hb-channels li>svg{flex:none;margin-top:2px;color:var(--c-accent-bright)}
+.hb-home .hb-channels span{display:block;margin-bottom:var(--s-1);color:#8ba2b8;font-size:var(--fs-xs);font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.hb-home .hb-channels a,.hb-home .hb-channels div p{margin:0;color:#fff;font-size:var(--fs-base);line-height:1.5;word-break:break-word}
+.hb-home .hb-channels a{
+ display:inline-flex;align-items:center;min-height:32px;
+ border-bottom:1px solid rgba(255,255,255,.26);
+ transition:border-color var(--t-fast) var(--ease-out),color var(--t-fast) var(--ease-out);
+}
+.hb-home .hb-channels a:hover{color:var(--c-accent-bright);border-bottom-color:var(--c-accent-bright)}
+
+/* ============================================================================
+   Tablet
+   ========================================================================== */
+
+@media(max-width:1080px){
+ .hb-home .hb-head{grid-template-columns:1fr;align-items:start;gap:var(--s-5)}
+ .hb-home .hb-head h2{max-width:24ch}
+ .hb-home .hb-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .hb-home .hb-steps h3{margin-top:var(--s-6)}
+ .hb-home .hb-faq-grid{grid-template-columns:1fr}
+ .hb-home .hb-faq-intro{position:static}
+ .hb-home .hb-contact .container{grid-template-columns:1fr}
+}
+
+/* ============================================================================
+   Mobile — a distinct design, not a narrowed desktop.
+   ========================================================================== */
+
+@media(max-width:760px){
+ .hb-home .hb-section{padding:clamp(52px,11vw,72px) 0}
+
+ /* Copy runs full width, so the scrim comes from the bottom rather than the
+    left, or the right-hand words sit on bare video. */
+ .hb-home .hero:after{background:linear-gradient(0deg,rgba(4,18,35,.9) 0%,rgba(4,18,35,.46) 48%,rgba(4,18,35,.2) 100%)}
+ .hb-home .hero:before{background:
+  radial-gradient(70% 32% at 100% 0%,rgba(226,175,72,.26),transparent 70%),
+  radial-gradient(85% 40% at 0% 100%,rgba(14,80,133,.4),transparent 70%)}
+ .hb-home .hero-copy{padding:clamp(118px,20vh,150px) 0 var(--s-16)}
+ /* "chauffeur transport." is the widest ending and cannot wrap, so the type has
+    to stay small enough for it to clear a 360px viewport on its own line. */
+ .hb-home .hero h1{max-width:100%;font-size:clamp(1.5rem,5.6vw,2.4rem);line-height:1.24}
+ .hb-home .hero-actions{display:grid;grid-template-columns:1fr;gap:var(--s-2);margin-top:var(--s-8)}
+ .hb-home .hero-actions .btn{width:100%;min-height:52px}
+ .hb-home .hero-kicker p{font-size:.62rem;letter-spacing:.08em}
+ .hb-home .hero-proof{width:100%;margin-top:var(--s-10)}
+ .hb-home .hero-proof>div{flex:1;min-width:0;display:block;padding:var(--s-4) var(--s-2) 0 0}
+ .hb-home .hero-proof>div+div{padding-left:var(--s-3)}
+ .hb-home .hero-proof strong,.hb-home .hero-proof span{display:block}
+ .hb-home .hero-proof span{margin-top:var(--s-2);font-size:.58rem}
+ .hb-home .hero-scroll{display:none}
+ .hb-home .hero-beam-field{inset:0 -45% 0 28%;opacity:.42}
+ .hb-home .hb-signal span{padding-inline:1.75rem}
+
+ .hb-home .hb-head{margin-bottom:var(--s-8);padding-bottom:var(--s-6)}
+ .hb-home .hb-head h2{max-width:100%}
+
+ /* Single column throughout — two-up cards on a phone are unreadable. */
+ .hb-home .hb-service-grid,
+ .hb-home .hb-engagements,
+ .hb-home .hb-audiences,
+ .hb-home .hb-ongoing{grid-template-columns:1fr;gap:var(--s-3)}
+ .hb-home .hb-service-card,
+ .hb-home .hb-engagement,
+ .hb-home .hb-ongoing article{padding:var(--s-6)}
+ /* Hover cannot be reached on touch, so the affordance is permanent instead. */
+ .hb-home .hb-service-card:before{transform:scaleX(1)}
+ .hb-home .hb-service-card:hover{transform:none}
+
+ /* The table became a 760px horizontal scroll. Reflow each structure into its
+    own card with the row labels inline. */
+ .hb-home .hb-table-scroll{display:none}
+ .hb-home .hb-structure-cards{display:grid;gap:var(--s-3)}
+ .hb-home .hb-structure-card{
+  padding:var(--s-6);border:1px solid var(--c-line);
+  border-radius:var(--r-lg);background:var(--c-surface);
+ }
+ .hb-home .hb-structure-card>h3{
+  margin:0 0 var(--s-4);padding-bottom:var(--s-3);
+  border-bottom:1px solid var(--c-line);
+  color:var(--c-ink-900);font-size:var(--fs-lg);font-weight:700;letter-spacing:-.02em;
+ }
+ .hb-home .hb-structure-card dl{display:grid;gap:var(--s-4);margin:0}
+ .hb-home .hb-structure-card dt{
+  margin-bottom:var(--s-1);color:var(--c-accent);
+  font-size:var(--fs-xs);font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+ }
+ .hb-home .hb-structure-card dd{margin:0;color:var(--c-ink-500);font-size:var(--fs-base);line-height:1.6}
+
+ .hb-home .hb-steps{grid-template-columns:1fr;gap:var(--s-2)}
+ .hb-home .hb-steps li{
+  display:grid;grid-template-columns:auto 1fr;column-gap:var(--s-4);
+  padding:var(--s-5);
+ }
+ /* Number moves beside the title on a phone: a five-row vertical list reads far
+    faster than five cards each with a number stranded above it. */
+ .hb-home .hb-steps b{grid-row:1/3;padding-top:2px}
+ .hb-home .hb-steps h3{margin:0 0 var(--s-1)}
+ .hb-home .hb-dark-cta{display:block;padding:var(--s-5)}
+ .hb-home .hb-dark-cta .btn{width:100%;min-height:52px;margin-top:var(--s-5)}
+
+ .hb-home .hb-faq summary{padding:var(--s-4) 0;font-size:var(--fs-base)}
+ .hb-home .hb-channels{grid-template-columns:1fr}
+ .hb-home .hb-channels li{padding:var(--s-5)}
+ .hb-home .hb-contact-copy .btn{width:100%;min-height:52px}
+}
+
+/* ============================================================================
+   Mobile-only enquiry bar
+
+   Desktop keeps the header CTA in view at all times, so nothing floats there.
+   On a phone the header action collapses behind the menu button, which is why
+   this exists on touch only.
+   ========================================================================== */
+
+.hb-mobile-cta{display:none}
+
+@media(max-width:760px){
+ .hb-mobile-cta{
+  display:block;position:fixed;z-index:120;
+  left:var(--s-3);right:var(--s-3);
+  bottom:calc(var(--s-3) + env(safe-area-inset-bottom,0px));
+  transform:translateY(calc(100% + var(--s-6)));
+  opacity:0;visibility:hidden;
+  transition:transform 420ms var(--ease-out),opacity 260ms var(--ease-out),visibility 0s 420ms;
+ }
+ .hb-mobile-cta[data-visible="true"]{
+  transform:none;opacity:1;visibility:visible;
+  transition:transform 420ms var(--ease-out),opacity 260ms var(--ease-out),visibility 0s;
+ }
+ .hb-mobile-cta .btn{
+  width:100%;min-height:54px;
+  border-radius:var(--r-md);
+  box-shadow:0 8px 28px rgba(8,23,43,.28),inset 0 1px 0 rgba(255,255,255,.4);
+ }
+ /* The bar floats over the end of the page, so the footer needs clearance. */
+ body:has(.hb-mobile-cta) .footer{padding-bottom:calc(var(--s-20) + env(safe-area-inset-bottom,0px))}
+}
+
+@media(prefers-reduced-motion:reduce){
+ .hb-mobile-cta{transition:opacity 200ms linear}
+ .hb-mobile-cta,.hb-mobile-cta[data-visible="true"]{transform:none}
+ .hb-home .hero-beam-field,.hb-home .hb-signal>div,.hb-home .hb-dark:before{animation:none}
+}

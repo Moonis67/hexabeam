@@ -1,0 +1,225 @@
+/* ============================================================================
+   Design system — tokens and global corrections.
+
+   Loaded after redesign.css so it can correct sitewide defects, and before
+   home.css so the homepage can build on the tokens. Everything here is either a
+   custom property (inert until used) or a narrowly targeted fix. It does not
+   restyle existing components.
+   ========================================================================== */
+
+:root{
+ /* ---- Neutrals. One cool-navy ramp; no competing greys. ---- */
+ --c-ink-900:#08172b;
+ --c-ink-800:#0e2742;
+ --c-ink-700:#1c3c5c;
+ --c-ink-600:#33506e;
+ --c-ink-500:#4e6884;
+ --c-ink-400:#6d839b;
+ --c-ink-300:#94a6b8;
+
+ --c-surface:#ffffff;
+ --c-surface-sunken:#f6f9fb;
+ --c-surface-raised:#ffffff;
+ --c-line:#e2e9f0;
+ --c-line-strong:#cbd7e2;
+
+ /* ---- One accent. Gold is the brand. #9a6a14 cleared 4.5:1 on white but only
+        4.30:1 on the sunken surface, where the eyebrows sit. This tone clears
+        both (5.06:1 on sunken). ---- */
+ --c-accent:#8f6210;
+ --c-accent-bright:#f0ca72;
+ --c-accent-wash:#fdf7ea;
+
+ --c-focus:#1a73b8;
+
+ /* ---- Type scale. Fluid, ~1.22 ratio. ---- */
+ --fs-xs:.75rem;
+ --fs-sm:.8125rem;
+ --fs-base:.9375rem;
+ --fs-md:1.0625rem;
+ --fs-lg:clamp(1.125rem,.95rem + .55vw,1.3rem);
+ --fs-xl:clamp(1.3rem,1.1rem + .8vw,1.6rem);
+ --fs-2xl:clamp(1.6rem,1.3rem + 1.4vw,2.2rem);
+ --fs-3xl:clamp(2rem,1.6rem + 2vw,3rem);
+ --fs-4xl:clamp(2.4rem,1.9rem + 2.6vw,3.75rem);
+
+ /* ---- 4px spatial grid. ---- */
+ --s-1:4px;  --s-2:8px;   --s-3:12px;  --s-4:16px;
+ --s-5:20px; --s-6:24px;  --s-8:32px;  --s-10:40px;
+ --s-12:48px;--s-16:64px; --s-20:80px; --s-24:96px;
+ --s-section:clamp(64px,7vw,112px);
+
+ --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:22px; --r-full:999px;
+
+ /* ---- Elevation. Two-layer shadows; ambient plus contact. ---- */
+ --e-1:0 1px 2px rgba(8,23,43,.05),0 1px 3px rgba(8,23,43,.04);
+ --e-2:0 2px 4px rgba(8,23,43,.04),0 8px 20px rgba(8,23,43,.06);
+ --e-3:0 4px 8px rgba(8,23,43,.05),0 18px 44px rgba(8,23,43,.09);
+
+ /* ---- Motion. One curve for everything. ---- */
+ --ease-out:cubic-bezier(.22,1,.36,1);
+ --t-fast:140ms; --t-base:200ms; --t-slow:600ms;
+}
+
+/* Remove the sitewide grain overlay. It sat at z-index 9999 with
+   mix-blend-mode:multiply across every page, dulling all colour and edge
+   contrast — the single largest obstacle to a crisp finish. */
+/* `content:none` is stripped by the CSS optimiser, so hide it by display. */
+body:after{display:none!important}
+
+body{
+ -webkit-font-smoothing:antialiased;
+ -moz-osx-font-smoothing:grayscale;
+ text-rendering:optimizeLegibility;
+}
+
+::selection{background:var(--c-accent-bright);color:var(--c-ink-900)}
+
+/* A single visible focus ring, everywhere. Only for keyboard users, so pointer
+   interaction stays clean. */
+:where(a,button,summary,input,textarea,select,[tabindex]):focus-visible{
+ outline:2px solid var(--c-focus);
+ outline-offset:2px;
+ border-radius:var(--r-sm);
+}
+
+/* Header.
+
+   redesign.css rendered this as a floating glass pill on any page with a hero:
+   `position:absolute; left:50%; transform:translateX(-50%); width:min(...)`.
+   Making it sticky while leaving the transform in place shifted it half its own
+   width off-screen, so every one of those properties has to be unwound, not just
+   `position`. It is now an ordinary full-width sticky bar. */
+html .header[data-sticky]{
+ position:sticky;
+ top:0;
+ left:auto;
+ right:auto;
+ width:100%;
+ max-width:none;
+ height:72px;
+ margin:0;
+ transform:none;
+ border:0;
+ border-bottom:1px solid var(--c-line);
+ border-radius:0;
+ background:rgba(255,255,255,.92);
+ backdrop-filter:blur(14px) saturate(150%);
+ -webkit-backdrop-filter:blur(14px) saturate(150%);
+ box-shadow:none;
+ transition:box-shadow var(--t-base) var(--ease-out);
+}
+html .header[data-sticky][data-scrolled="true"]{box-shadow:var(--e-2)}
+html .header[data-sticky] .nav-item{height:72px}
+html .header[data-sticky] .mega{top:72px}
+html .header[data-sticky] .logo{background:none;box-shadow:none;padding:0;border-radius:0}
+
+/* The utility strip was absolutely positioned over the hero to sit inside that
+   pill layout. With a real sticky bar it belongs back in normal flow. */
+html body:has(.hero) .utility{
+ position:static;
+ background:var(--c-ink-900);
+ color:#d7deea;
+ border-bottom:0;
+}
+
+/* The mobile drawer opened below where the old pill sat. Align it to the bar. */
+@media(max-width:820px){
+ html .mobile-panel{top:72px;inset-block-end:0}
+}
+
+/* Scroll-reveal. `.hb-motion` is set on <html> by Motion.tsx, so if JavaScript
+   never runs the content is simply visible rather than stuck at opacity 0.
+   Gated on no-preference so reduced-motion users never see a hidden element. */
+@media(prefers-reduced-motion:no-preference){
+ .hb-motion [data-reveal]{
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity var(--t-slow) var(--ease-out),transform var(--t-slow) var(--ease-out);
+ }
+ .hb-motion [data-reveal][data-revealed="true"]{opacity:1;transform:none}
+}
+
+/* ============================================================================
+   Typography polish
+   ========================================================================== */
+
+/* `pretty` prevents single-word orphans on the last line of a paragraph — the
+   detail that most separates typeset text from browser-default text. */
+p,li,dd{text-wrap:pretty}
+h1,h2,h3,h4{text-wrap:balance}
+
+/* Never let the browser fake a weight it does not have. Faux-bold is the most
+   common reason type looks subtly wrong. */
+:where(h1,h2,h3,h4,strong,b,.btn){font-synthesis:none}
+
+/* Numerals in tabular contexts must not shift width between values. */
+:where(table,time,.hb-num,.hb-steps b){font-variant-numeric:tabular-nums}
+
+/* Sticky header would otherwise cover the target of any in-page anchor. */
+:target,[id]{scroll-margin-top:104px}
+
+html{scrollbar-width:thin;scrollbar-color:var(--c-line-strong) transparent}
+
+/* ============================================================================
+   Buttons
+
+   `.btn` is redefined in ~24 places across globals.css and redesign.css. This
+   block loads last, so the bare-selector rules here win, while contextual rules
+   (`.contact-form .btn`) keep their page-specific sizing. The result is one
+   button language sitewide without unpicking the older files.
+   ========================================================================== */
+
+.btn{
+ min-height:44px;
+ padding:0 var(--s-5);
+ gap:var(--s-2);
+ border-radius:var(--r-sm);
+ font-size:var(--fs-base);
+ font-weight:600;
+ letter-spacing:-.005em;
+ text-transform:none;
+ box-shadow:var(--e-1);
+ transition:background var(--t-fast) var(--ease-out),
+            border-color var(--t-fast) var(--ease-out),
+            color var(--t-fast) var(--ease-out),
+            box-shadow var(--t-fast) var(--ease-out),
+            transform var(--t-fast) var(--ease-out);
+}
+/* Retires the diagonal shine sweep from redesign.css:24. */
+.btn:before{display:none!important}
+
+/* Physical feedback. A button that does not move under the finger feels dead,
+   and this is the detail people register without being able to name it. */
+.btn:active{transform:translateY(1px);box-shadow:none}
+
+.btn-primary{
+ background:linear-gradient(180deg,#eab84e 0%,#dca029 100%);
+ color:#23180a;
+ box-shadow:var(--e-1),inset 0 1px 0 rgba(255,255,255,.4);
+}
+.btn-primary:hover{
+ background:linear-gradient(180deg,#f0c463 0%,#e3aa33 100%);
+ box-shadow:var(--e-2),inset 0 1px 0 rgba(255,255,255,.45);
+ transform:translateY(-1px);
+}
+.btn-primary:active{transform:translateY(1px);box-shadow:inset 0 1px 3px rgba(70,45,5,.28)}
+
+.btn-dark{background:var(--c-ink-800);color:#fff}
+.btn-dark:hover{background:var(--c-ink-900);box-shadow:var(--e-2);transform:translateY(-1px)}
+.btn-dark:active{transform:translateY(1px);box-shadow:none}
+
+.btn-outline{
+ border-color:rgba(255,255,255,.4);
+ background:rgba(255,255,255,.06);
+ color:#fff;
+ backdrop-filter:blur(10px);
+ -webkit-backdrop-filter:blur(10px);
+ box-shadow:none;
+}
+.btn-outline:hover{border-color:rgba(255,255,255,.68);background:rgba(255,255,255,.14);transform:translateY(-1px)}
+.btn-outline:active{transform:translateY(1px)}
+
+@media(prefers-reduced-motion:reduce){
+ .btn,.btn:hover,.btn:active{transform:none}
+}

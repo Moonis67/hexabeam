@@ -5,7 +5,7 @@ import {services,categoryMeta,type CategoryKey,type Service} from "@/src/content
 import {serviceImageFor} from "@/src/content/serviceImages";
 import {Link} from "./SiteLink";
 
-const categories:(CategoryKey|"all")[]=["all","business-setup","visas","tax-accounting","corporate-legal","business-support","logistics-concierge"];
+const categories:(CategoryKey|"all")[]=["all","business-setup","visas","accounting","tax-accounting","corporate-legal","corporate-services","property-valuation","logistics","chauffeur-transport"];
 const imageFor=(service:Service)=>serviceImageFor(service.slug);
 
 export function ScrollableServices(){

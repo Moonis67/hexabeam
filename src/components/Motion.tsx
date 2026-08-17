@@ -11,11 +11,10 @@ export function Motion(){useEffect(()=>{if(window.matchMedia("(prefers-reduced-m
  ScrollTrigger.create({trigger:".hero",start:"top -2px",once:true,onEnter:()=>heroTimeline.play()});
  gsap.to(".hero-video",{scale:1.055,yPercent:3,ease:"none",scrollTrigger:{trigger:".hero",start:"top top",end:"bottom top",scrub:1.2}});
  gsap.utils.toArray<HTMLElement>(".category-card").forEach((el,i)=>gsap.from(el,{x:i%2?22:-22,duration:.8,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 90%",once:true}}));
- gsap.utils.toArray<HTMLElement>(".service-tile,.why-item,.process-row").forEach(el=>gsap.from(el,{y:28,duration:.75,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 92%",once:true}}));
+ gsap.utils.toArray<HTMLElement>(".service-tile,.why-item,.process-row,.receive-card,.scenario-card").forEach(el=>gsap.from(el,{y:28,duration:.75,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 92%",once:true}}));
  gsap.utils.toArray<HTMLElement>(".section-head h2,.editorial-collage,.intro-diagram>div,.step,.faq details").forEach((el,i)=>gsap.from(el,{y:34,opacity:0,duration:.8,delay:(i%4)*.035,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 91%",once:true}}));
  gsap.to(".editorial-collage",{yPercent:-5,ease:"none",scrollTrigger:{trigger:".intro-story",start:"top bottom",end:"bottom top",scrub:1.4}});
  gsap.to(".intro-story",{backgroundPosition:"56% 100%",ease:"none",scrollTrigger:{trigger:".intro-story",start:"top bottom",end:"bottom top",scrub:1.6}});
- gsap.fromTo(".feature-portal-frame",{y:12},{y:0,ease:"none",scrollTrigger:{trigger:".feature-portal",start:"top bottom",end:"bottom top",scrub:1.15}});
  gsap.fromTo(".feature-portal-bg",{scale:1.08,yPercent:-2},{scale:1.02,yPercent:3,ease:"none",scrollTrigger:{trigger:".feature-portal",start:"top bottom",end:"bottom top",scrub:1.45}});
  gsap.from(".feature-portal-content>*",{y:30,opacity:0,duration:.75,stagger:.08,ease:"power3.out",scrollTrigger:{trigger:".feature-portal-content",start:"top 78%",once:true}});
  gsap.from(".scroll-service-card",{y:34,rotate:.5,duration:.8,stagger:.07,ease:"power3.out",scrollTrigger:{trigger:".all-services-canvas",start:"top 72%",once:true}});

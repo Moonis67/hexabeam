@@ -6,6 +6,7 @@ import {Link} from "./SiteLink";
 
 const INTRO_VIDEO = "/assets/video/hexabeam-hero-intro.mp4";
 const LOOP_VIDEO = "/assets/video/hexabeam-hero-loop.mp4";
+const SERVICE_WORDS=["company setup.","UAE residency.","tax & accounting.","business support."];
 
 // Module state survives client-side navigation, but resets on a full refresh.
 let introHasPlayed = false;
@@ -13,6 +14,7 @@ let introHasPlayed = false;
 export function HomeHero(){
  const [ready,setReady]=useState(false);
  const [videoSrc,setVideoSrc]=useState(()=>introHasPlayed?LOOP_VIDEO:INTRO_VIDEO);
+ const [serviceWord,setServiceWord]=useState(0);
  const video=useRef<HTMLVideoElement>(null);
  const loopPreload=useRef<HTMLVideoElement|null>(null);
 
@@ -26,6 +28,12 @@ export function HomeHero(){
     loopPreload.current.load();
    }
   };
+ },[]);
+
+ useEffect(()=>{
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const rotation=window.setInterval(()=>setServiceWord(current=>(current+1)%SERVICE_WORDS.length),2400);
+  return()=>window.clearInterval(rotation);
  },[]);
 
  const warmLoopVideo=()=>{
@@ -63,6 +71,6 @@ export function HomeHero(){
    onError={playLoopVideo}
   />
   <div className="hero-beam-mark" aria-hidden="true"/>
-  <div className="container hero-grid"><div className="hero-copy"><h1>Move forward in <em>Dubai and the UAE.</em></h1><p className="lead">Set up a company, secure residency and manage the tax, accounting, legal and operational requirements that follow, all through one coordinated point of contact.</p><div className="hero-actions"><Link className="btn btn-primary" href="/contact/">Plan your next step <ArrowRight size={16}/></Link><Link className="btn btn-outline" href="/services/">Explore all services</Link></div></div></div>
+  <div className="container hero-grid"><div className="hero-copy"><h1 aria-label="Move forward with complete UAE business support."><span className="hero-static-line">Move forward with</span><em className="hero-service-loop" aria-hidden="true"><span key={serviceWord}>{SERVICE_WORDS[serviceWord]}</span></em></h1><div className="hero-actions"><Link className="btn btn-primary" href="/contact/">Start a conversation <ArrowRight size={16}/></Link><Link className="btn btn-outline" href="/services/">View services</Link></div></div></div>
  </section>
 }
